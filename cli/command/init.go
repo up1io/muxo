@@ -20,7 +20,7 @@ type InitCmdOption func(command *InitCmd)
 func NewInitCmd(opts ...InitCmdOption) *InitCmd {
 	instance := &InitCmd{}
 
-	cmd := &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "init",
 		Short: "Init a new project or module",
 	}
@@ -28,12 +28,12 @@ func NewInitCmd(opts ...InitCmdOption) *InitCmd {
 	initAppCmd := &cobra.Command{
 		Use:   "app",
 		Short: "Init a new project",
-		Run:   instance.run,
+		Run:   instance.runProjectInit,
 	}
 
-	cmd.AddCommand(initAppCmd)
+	rootCmd.AddCommand(initAppCmd)
 
-	instance.cmd = cmd
+	instance.cmd = rootCmd
 
 	for _, opt := range opts {
 		opt(instance)
@@ -48,7 +48,7 @@ func WithRootCommand(root *cobra.Command) InitCmdOption {
 	}
 }
 
-func (c *InitCmd) run(cmd *cobra.Command, args []string) {
+func (c *InitCmd) runProjectInit(cmd *cobra.Command, args []string) {
 	wizardForm := projectwizardui.NewProjectWizard()
 	p := tea.NewProgram(wizardForm)
 	if _, err := p.Run(); err != nil {
