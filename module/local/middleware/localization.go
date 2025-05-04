@@ -15,7 +15,7 @@ var langMatcher = language.NewMatcher([]language.Tag{
 const CurrentLanguageKey = "middleware.lang.current"
 
 func WithLocalization(next http.Handler) http.Handler {
-	gotext.Configure("web/locales", "de", "default")
+	gotext.Configure("web/locales", "en", "default")
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		lang, _ := r.Cookie("user-language")
