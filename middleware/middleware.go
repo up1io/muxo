@@ -1,4 +1,4 @@
-package muxo
+package middleware
 
 import "net/http"
 
