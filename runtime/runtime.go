@@ -20,5 +20,6 @@ func NewDefaultRuntime(addr string) *DefaultRuntime {
 }
 
 func (r *DefaultRuntime) Serve(ctx context.Context, mux http.ServeMux) error {
+	println("Start local environment: localhost:8080")
 	return http.ListenAndServe(r.addr, &mux)
 }

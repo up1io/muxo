@@ -4,7 +4,6 @@ go 1.24
 
 require (
 	github.com/a-h/templ v0.3.857
-	github.com/akrylysov/algnhsa v1.1.0
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/gorilla/schema v1.4.1
@@ -15,7 +14,6 @@ require (
 
 require (
 	github.com/atotto/clipboard v0.1.4 // indirect
-	github.com/aws/aws-lambda-go v1.48.0 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/colorprofile v0.2.3-0.20250311203215-f60798e515dc // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect

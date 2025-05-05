@@ -15,12 +15,10 @@ type InitCmd struct {
 	cmd *cobra.Command
 }
 
-type InitCmdOption func(command *InitCmd)
-
-func NewInitCmd(opts ...InitCmdOption) *InitCmd {
+func NewInitCmd(rootCmd *cobra.Command) *InitCmd {
 	instance := &InitCmd{}
 
-	rootCmd := &cobra.Command{
+	initCmd := &cobra.Command{
 		Use:   "init",
 		Short: "Init a new project or module",
 	}
@@ -31,21 +29,13 @@ func NewInitCmd(opts ...InitCmdOption) *InitCmd {
 		Run:   instance.runProjectInit,
 	}
 
-	rootCmd.AddCommand(initAppCmd)
+	initCmd.AddCommand(initAppCmd)
 
-	instance.cmd = rootCmd
+	instance.cmd = initCmd
 
-	for _, opt := range opts {
-		opt(instance)
-	}
+	rootCmd.AddCommand(initCmd)
 
 	return instance
-}
-
-func WithRootCommand(root *cobra.Command) InitCmdOption {
-	return func(command *InitCmd) {
-		root.AddCommand(command.cmd)
-	}
 }
 
 func (c *InitCmd) runProjectInit(cmd *cobra.Command, args []string) {

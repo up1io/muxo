@@ -16,7 +16,8 @@ func New() *Runner {
 		Long:  "Muxo is a primarily Server Side-Rendering (SSR) Go Web Framework.",
 	}
 
-	command.NewInitCmd(command.WithRootCommand(rootCmd))
+	command.NewInitCmd(rootCmd)
+	command.NewDevCommand(rootCmd)
 
 	return &Runner{
 		rootCmd: rootCmd,
