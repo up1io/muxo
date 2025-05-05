@@ -15,8 +15,7 @@ func NewModuleNameModel() *ModuleNameModel {
 	ti := textinput.New()
 	ti.Placeholder = "github.com/example/project"
 	ti.Focus()
-	ti.CharLimit = 255
-	ti.Width = 20
+	ti.Width = 255
 
 	return &ModuleNameModel{
 		input: ti,
