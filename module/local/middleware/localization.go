@@ -3,9 +3,9 @@ package middleware
 import (
 	"context"
 	"github.com/leonelquinteros/gotext"
+	"github.com/up1io/muxo/logger"
 	"github.com/up1io/muxo/middleware"
 	"golang.org/x/text/language"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -51,7 +51,7 @@ func WithLocalization(localesDir string) middleware.Middleware {
 	domain := "default"
 	gotext.Configure(localesDir, defaultLang, domain)
 
-	log.Println("available locales", strings.Join(availableLocales, ","))
+	logger.Info("available locales: %s", strings.Join(availableLocales, ","))
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

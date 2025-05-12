@@ -2,10 +2,10 @@ package muxo
 
 import (
 	"context"
+	"github.com/up1io/muxo/logger"
 	"github.com/up1io/muxo/middleware"
 	localMiddleware "github.com/up1io/muxo/module/local/middleware"
 	"github.com/up1io/muxo/runtime"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -15,6 +15,7 @@ type App struct {
 	srv         Server
 	runtime     runtime.Runtime
 	middlewares []middleware.Middleware
+	log         logger.Logger
 }
 
 type AppOption func(app *App)
@@ -25,6 +26,7 @@ func NewApp(opts ...AppOption) (*App, error) {
 		middlewares: []middleware.Middleware{
 			localMiddleware.WithLocalization("web/locales"),
 		},
+		log: logger.Default,
 	}
 
 	for _, opt := range opts {
@@ -60,6 +62,13 @@ func WithAdditionalMiddleware(middlewares ...middleware.Middleware) AppOption {
 	}
 }
 
+// WithLogger allows users to provide a custom logger
+func WithLogger(log logger.Logger) AppOption {
+	return func(app *App) {
+		app.log = log
+	}
+}
+
 func (app *App) Serve() error {
 	ctx := context.Background()
 
@@ -73,12 +82,12 @@ func (app *App) Serve() error {
 		defer func() {
 			errs := app.srv.Shutdown()
 			if len(errs) != 0 {
-				log.Printf("errors occured during server shutdown: %v", errs)
+				app.log.Error("errors occurred during server shutdown: %v", errs)
 			}
 		}()
 
 		if err := app.srv.Init(); err != nil {
-			log.Printf("fail to configure server %s", err.Error())
+			app.log.Error("fail to configure server %s", err.Error())
 			stop <- os.Interrupt
 		}
 
@@ -96,7 +105,7 @@ func (app *App) Serve() error {
 		wrappedMux.Handle("/", handler)
 
 		if err := app.runtime.Serve(ctx, *wrappedMux); err != nil {
-			log.Printf("unable to run server %s", err.Error())
+			app.log.Error("unable to run server %s", err.Error())
 			stop <- os.Interrupt
 		}
 	}()

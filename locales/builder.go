@@ -2,6 +2,7 @@ package locales
 
 import (
 	"fmt"
+	"github.com/up1io/muxo/logger"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -48,7 +49,7 @@ func (b *Builder) Process() error {
 			return fmt.Errorf("failed to compile %s: %w", path, err)
 		}
 
-		fmt.Printf("[locale] %s -> %s\n", path, out)
+		logger.Info("[locale] %s -> %s", path, out)
 		return nil
 	})
 }
