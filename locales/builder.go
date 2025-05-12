@@ -31,6 +31,10 @@ func (b *Builder) WithLogger(log logger.Logger) *Builder {
 	return b
 }
 
+func (b *Builder) Install() error {
+	return b.CheckDependencies()
+}
+
 // CheckDependencies checks if the required dependencies are installed.
 func (b *Builder) CheckDependencies() error {
 	if _, err := exec.LookPath("msgfmt"); err != nil {
