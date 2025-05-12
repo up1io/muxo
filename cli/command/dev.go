@@ -3,6 +3,7 @@ package command
 import (
 	"github.com/spf13/cobra"
 	"github.com/up1io/muxo/locales"
+	"github.com/up1io/muxo/logger"
 	"github.com/up1io/muxo/processor"
 	"github.com/up1io/muxo/templater"
 	"github.com/up1io/muxo/watcher"
@@ -39,7 +40,10 @@ func NewDevCommand(rootCmd *cobra.Command) *DevCommand {
 func (d *DevCommand) run(cmd *cobra.Command, args []string) {
 	p := processor.New()
 
-	builder := &locales.Builder{Root: "web/locales"}
+	builder := &locales.Builder{
+		Root: "web/locales",
+		Log:  logger.Default,
+	}
 	templ := &templater.Templater{Dir: "template"}
 
 	p.Add(builder)
