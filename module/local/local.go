@@ -8,8 +8,8 @@ import (
 
 // Text returns the localized version of the given string.
 // It uses the language set by the localization middleware.
-func Text(s string) string {
-	return gotext.Get(s)
+func Text(s string, vars ...interface{}) string {
+	return gotext.Get(s, vars)
 }
 
 // SetLocal sets the user's preferred language by setting a cookie.
